@@ -9,6 +9,6 @@ repository ''
 
 shared_script {'config.lua', '@ox_lib/init.lua', '@oxmysql/lib/MySQL.lua'}
 
-client_scripts {'client.lua'}
+client_scripts {'client.lua', 'camdebug.lua'}
 
 server_scripts {'server.lua'}

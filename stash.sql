@@ -5,3 +5,8 @@ CREATE TABLE IF NOT EXISTS skapdevzstash (
     amount INT,
     added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS skapdevzstash_pins (
+    stash_key VARCHAR(100) PRIMARY KEY,
+    pin VARCHAR(10)
+);
