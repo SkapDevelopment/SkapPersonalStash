@@ -7,8 +7,8 @@ author 'Skap'
 description ''
 repository ''
 
-shared_script {'config.lua', '@ox_lib/init.lua', '@oxmysql/lib/MySQL.lua'}
+shared_script {'config.lua', '@ox_lib/init.lua'}
 
 client_scripts {'client.lua', 'camdebug.lua'}
 
-server_scripts {'server.lua'}
+server_scripts {'server.lua', '@oxmysql/lib/MySQL.lua'}
