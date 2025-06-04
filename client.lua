@@ -68,7 +68,7 @@ function RefreshStashTargets()
                         type = "client",
                         event = "skapPersonalStashes:openPersonalStash",
                         icon = "fas fa-box-open",
-                        label = "Öppna förråd",
+                        label = "Open stash",
                         stashKey = key
                     }
                 },
@@ -86,7 +86,7 @@ function RefreshStashTargets()
                     type = "client",
                     event = "skapPersonalStashes:openEmployeeMenu",
                     icon = "fas fa-users",
-                    label = "Anställdas förråd",
+                    label = "Employees Stash",
                     stashKey = key
                 })
             end
@@ -95,7 +95,7 @@ function RefreshStashTargets()
                 table.insert(options.options, {
                     type = "client",
                     icon = "fas fa-key",
-                    label = "Sätt pinkod",
+                    label = "Set pin code",
                     event = "skapPersonalStashes:setStashPinMenu",
                     stashKey = key
                 })
@@ -126,8 +126,8 @@ end)
 
 RegisterNetEvent("skapPersonalStashes:setStashPinMenu", function(data)
     local stashKey = data.stashKey
-    local input = lib.inputDialog("Ange ny pinkod", {
-        { type = "input", label = "Pinkod (4–10 siffror)", password = true, min = 4, max = 10, required = true }
+    local input = lib.inputDialog("Enter new pin code", {
+        { type = "input", label = "PIN (4-10 digits)", password = true, min = 4, max = 10, required = true }
     })
 
     if input and input[1] then
@@ -139,7 +139,7 @@ end)
 
 RegisterNetEvent("skapPersonalStashes:showEmployeeMenu", function(employees)
     if #employees == 0 then
-        lib.notify({ title = "Förråd", description = "Inga anställda hittades.", type = "info" })
+        lib.notify({ title = "Stash", description = "No employees found.", type = "info" })
         return
     end
 
@@ -197,7 +197,7 @@ RegisterNetEvent("skapPersonalStashes:openPersonalStash", function()
     end
 
     if not stashKey then
-        QBCore.Functions.Notify("Ingen stash hittad", "error")
+        QBCore.Functions.Notify("No stash founded.", "error")
         return
     end
 
@@ -225,17 +225,17 @@ RegisterNetEvent("skapPersonalStashes:openPersonalStash", function()
     end
 
     if not allowed then
-        QBCore.Functions.Notify("Du har inte behörighet att öppna detta förråd.", "error")
+        QBCore.Functions.Notify("You do not have permission to open this repository.", "error")
         return
     end
 
     if Config.UseStashPin then
-        local input = lib.inputDialog("Pinkod krävs", {
-            { type = "input", label = "Ange pinkod", password = true, required = true }
+        local input = lib.inputDialog("PIN code required", {
+            { type = "input", label = "Enter pin code", password = true, required = true }
         })
 
         if not input or not input[1] then
-            QBCore.Functions.Notify("Pinkod krävs.", "error")
+            QBCore.Functions.Notify("PIN code required.", "error")
             return
         end
 
