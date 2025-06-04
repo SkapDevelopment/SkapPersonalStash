@@ -55,13 +55,13 @@ RegisterNetEvent("skapPersonalStashes:getAllEmployees", function(stashKey)
     end
 
     if not isBoss then
-        TriggerClientEvent("QBCore:Notify", src, "Du har inte behörighet", "error")
+        TriggerClientEvent("QBCore:Notify", src, "You are not authorized", "error")
         return
     end
 
     local employees = getEmployees(stashKey)
     if #employees == 0 then
-        TriggerClientEvent("QBCore:Notify", src, "Inga anställda hittades", "error")
+        TriggerClientEvent("QBCore:Notify", src, "No employees found", "error")
         return
     end
 
@@ -118,12 +118,12 @@ RegisterNetEvent("skapPersonalStashes:addItemToPlayerStash", function(citizenid,
 
     local item = player.Functions.GetItemByName(itemName)
     if not item or item.amount < amount then
-        TriggerClientEvent('QBCore:Notify', src, 'Ogiltigt föremål eller antal.', 'error')
+        TriggerClientEvent('QBCore:Notify', src, 'Invalid item or quantity.', 'error')
         return
     end
 
     player.Functions.RemoveItem(itemName, amount)
-    TriggerClientEvent('QBCore:Notify', src, 'Föremål tillagt i stash', 'success')
+    TriggerClientEvent('QBCore:Notify', src, 'Item added to stash', 'success')
 
     local result = exports.oxmysql:executeSync("SELECT amount FROM skapdevzstash WHERE citizenid = ? AND item_name = ?", { citizenid, itemName })
     if result and result[1] then
@@ -142,7 +142,7 @@ RegisterNetEvent("skapPersonalStashes:removeItemFromStash", function(citizenid, 
     local currentAmount = result[1] and result[1].amount or 0
 
     if currentAmount < amount then
-        TriggerClientEvent("QBCore:Notify", src, "För lite i förrådet!", "error")
+        TriggerClientEvent("QBCore:Notify", src, "Too little in stock!", "error")
         return
     end
 
@@ -183,12 +183,12 @@ RegisterNetEvent("skapPersonalStashes:setStashPin", function(stashKey, pin)
     if stashData.gang and stashData.gang == gang and Player.PlayerData.gang.grade >= bossGrade then allowed = true end
 
     if not allowed then
-        TriggerClientEvent("QBCore:Notify", src, "Du har inte behörighet att ändra pinkod.", "error")
+        TriggerClientEvent("QBCore:Notify", src, "You are not authorized to change the PIN code.", "error")
         return
     end
 
     exports.oxmysql:execute("REPLACE INTO skapdevzstash_pins (stash_key, pin) VALUES (?, ?)", { stashKey, pin })
-    TriggerClientEvent("QBCore:Notify", src, "Pinkod uppdaterad!", "success")
+    TriggerClientEvent("QBCore:Notify", src, "Pin code updated!", "success")
 end)
 
 QBCore.Functions.CreateCallback("skapPersonalStashes:getStashPin", function(source, cb, stashKey)
@@ -221,7 +221,7 @@ RegisterNetEvent("skapPersonalStashes:verifyStashPin", function(stashKey, inputP
 
     LoadStashPin(stashKey, function(correctPin)
         if not correctPin then
-            TriggerClientEvent("QBCore:Notify", src, "Ingen pinkod är satt.", "error")
+            TriggerClientEvent("QBCore:Notify", src, "No pin code is set.", "error")
             return
         end
 
@@ -233,7 +233,7 @@ RegisterNetEvent("skapPersonalStashes:verifyStashPin", function(stashKey, inputP
             TriggerClientEvent("skapPersonalStashes:openStashWithPin", src, stashName, maxweight, slots)
             TriggerEvent("skapPersonalStashes:logOpenStash", stashKey, Player.PlayerData.citizenid)
         else
-            TriggerClientEvent("QBCore:Notify", src, "Fel pinkod.", "error")
+            TriggerClientEvent("QBCore:Notify", src, "Wrong pin code.", "error")
         end
     end)
 end)
