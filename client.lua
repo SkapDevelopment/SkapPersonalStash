@@ -165,7 +165,7 @@ RegisterNetEvent("skapPersonalStashes:showEmployeeMenu", function(employees)
     end
     lib.registerContext({
         id = "employee_stash_menu",
-        title = "👤 Anställdas förråd",
+        title = "👤Employee storage",
         options = options
     })
 
